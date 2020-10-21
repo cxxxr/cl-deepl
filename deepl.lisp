@@ -126,19 +126,6 @@
    (ignore-tags
     :initarg :ignore-tags)))
 
-(defmethod initialize-instance :after ((translate-params translate-params) &key &allow-other-keys)
-  (map-bound-slots (lambda (slot-definition value)
-                     (let ((slot-name (closer-mop:slot-definition-name slot-definition)))
-                       (setf (slot-value translate-params slot-name)
-                             (case slot-name
-                               ((source-lang target-lang split-sentences preserve-formatting)
-                                (string-upcase value))
-                               ((formality)
-                                (string-downcase value))
-                               (otherwise
-                                value)))))
-                   translate-params))
-
 (defmethod params-to-alist ((params translate-params))
   (let ((alist '()))
     (flet ((add (slot-name value)
@@ -151,6 +138,10 @@
                              (text
                               (dolist (text (uiop:ensure-list slot-value))
                                 (add slot-name text)))
+                             ((source-lang target-lang split-sentences preserve-formatting)
+                              (add slot-name (string-upcase slot-value)))
+                             ((formality)
+                              (add slot-name (string-downcase slot-value)))
                              (otherwise
                               (add slot-name slot-value)))))
                        params)
