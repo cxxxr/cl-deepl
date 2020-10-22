@@ -22,6 +22,8 @@
            :languages))
 (in-package :deepl/deepl)
 
+#+sbcl(sb-ext:lock-package *package*)
+
 (define-condition deepl-error (error)
   ())
 

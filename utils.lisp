@@ -6,6 +6,8 @@
    :map-bound-slots))
 (in-package :deepl/utils)
 
+#+sbcl(sb-ext:lock-package *package*)
+
 (defun string-list-p (value)
   (and (listp value)
        (do ((rest value (cdr rest)))
