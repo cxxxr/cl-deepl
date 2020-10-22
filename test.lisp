@@ -57,9 +57,18 @@
               (format nil "Required argument ~S missing." key))))
 
 (defun type-error-p (condition datum expected-type)
+  (declare (ignorable datum expected-type))
+  #+sbcl
   (and (typep condition 'type-error)
        (equal (type-error-datum condition) datum)
-       (equal (type-error-expected-type condition) expected-type)))
+       (equal (type-error-expected-type condition) expected-type))
+  #+ccl
+  (and (typep condition 'ccl::bad-slot-type-from-initarg)
+       (equal (ccl::type-error-datum condition) datum)
+       ;; (equal (ccl::type-error-expected-type condition) expected-type)
+       )
+  #-(or sbcl ccl)
+  t)
 
 (defmacro catch-error (form)
   `(nth-value 1 (ignore-errors ,form)))
