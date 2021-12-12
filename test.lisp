@@ -224,7 +224,8 @@
          (result (deepl:translate client "hello" :target-lang :ja)))
     (ok (alexandria:set-equal
          (mapcar (lambda (translation)
-                   (list :detected-source-language (deepl:translation-detected-source-language translation)
+                   (list :detected-source-language (deepl:translation-detected-source-language
+                                                    translation)
                          :text (deepl:translation-text translation)))
                  result)
          '((:detected-source-language :en :text "こんにちわ"))

@@ -158,7 +158,13 @@
                                                                translation))
                     :text (st-json:getjso "text" translation)))))
 
-(defun translate (client text &rest args &key target-lang source-lang split-sentences preserve-formatting formality)
+(defun translate (client text
+                  &rest args
+                  &key target-lang
+                       source-lang
+                       split-sentences
+                       preserve-formatting
+                       formality)
   (declare (ignore target-lang source-lang split-sentences preserve-formatting formality))
   (parse-translate-response (post-request client
                                           :translate
